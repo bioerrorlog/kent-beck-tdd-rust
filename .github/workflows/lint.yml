@@ -9,7 +9,7 @@ jobs:
     name: Lints
     runs-on: ubuntu-latest
     strategy:
-      matrix: 
+      matrix:
         dir:
           - 'chap_01_money'
 
