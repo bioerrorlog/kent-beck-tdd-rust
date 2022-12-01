@@ -8,10 +8,6 @@ jobs:
   lints:
     name: Lints
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dir:
-          - 'chap_01_money'
 
     steps:
       - name: Checkout sources
@@ -26,14 +22,12 @@ jobs:
           components: rustfmt, clippy
 
       - name: Run cargo fmt
-        working-directory: ${{ matrix.dir }}
         uses: actions-rs/cargo@v1
         with:
           command: fmt
           args: --all -- --check
 
       - name: Run cargo clippy
-        working-directory: ${{ matrix.dir }}
         uses: actions-rs/cargo@v1
         with:
           command: clippy

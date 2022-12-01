@@ -8,10 +8,6 @@ jobs:
   tests:
     name: Tests
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dir:
-          - 'chap_01_money'
 
     steps:
       - name: Checkout sources
@@ -25,13 +21,11 @@ jobs:
           override: true
 
       - name: Run cargo check
-        working-directory: ${{ matrix.dir }}
         uses: actions-rs/cargo@v1
         with:
           command: check
 
       - name: Run cargo test
-        working-directory: ${{ matrix.dir }}
         uses: actions-rs/cargo@v1
         with:
           command: test
