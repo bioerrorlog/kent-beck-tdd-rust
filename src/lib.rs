@@ -4,9 +4,7 @@ struct Doller {
 
 impl Doller {
     fn new(amount: i32) -> Doller {
-        Doller {
-            amount,
-        }
+        Doller { amount }
     }
 
     fn times(&mut self, multiplier: i32) {
