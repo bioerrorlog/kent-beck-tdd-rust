@@ -9,8 +9,8 @@ impl Doller {
         }
     }
 
-    fn times(&self, multiplier: i32) -> Self{
-        Doller::new(self.amount * multiplier)
+    fn times(&mut self, multiplier: i32) {
+        self.amount *= multiplier;
     }
 }
 
@@ -20,8 +20,8 @@ mod tests {
 
     #[test]
     fn multiplication() {
-        let five = Doller::new(5);
-        let ten = five.times(2);
-        assert_eq!(10, ten.amount);
+        let mut five = Doller::new(5);
+        five.times(2);
+        assert_eq!(10, five.amount);
     }
 }
