@@ -4,7 +4,7 @@ struct Money {
 }
 
 impl Money {
-    fn new (amount: i32) -> Self {
+    fn new(amount: i32) -> Self {
         Money { amount }
     }
 }
@@ -23,9 +23,7 @@ impl Doller {
 
     fn times(&self, multiplier: i32) -> Self {
         Doller {
-            money: Money {
-                amount: self.money.amount * multiplier,
-            },
+            money: Money::new(self.money.amount * multiplier),
         }
     }
 
