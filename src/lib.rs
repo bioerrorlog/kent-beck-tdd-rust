@@ -7,6 +7,10 @@ impl Money {
     fn new(amount: i32) -> Self {
         Money { amount }
     }
+
+    fn equals(&self, money: &Money) -> bool {
+        self.amount == money.amount
+    }
 }
 
 #[derive(Debug, PartialEq)]
@@ -28,7 +32,7 @@ impl Doller {
     }
 
     fn equals(&self, doller: &Doller) -> bool {
-        self.money.amount == doller.money.amount
+        self.money.equals(&doller.money)
     }
 }
 
