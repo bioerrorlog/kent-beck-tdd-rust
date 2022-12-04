@@ -1,21 +1,32 @@
 #[derive(Debug, PartialEq)]
-struct Doller {
+struct Money {
     amount: i32,
+}
+
+#[derive(Debug, PartialEq)]
+struct Doller {
+    money: Money,
 }
 
 impl Doller {
     fn new(amount: i32) -> Doller {
-        Doller { amount }
+        Doller {
+            money: Money {
+                amount,
+            },
+        }
     }
 
     fn times(&self, multiplier: i32) -> Doller {
         Doller {
-            amount: self.amount * multiplier,
+            money: Money {
+                amount: self.money.amount * multiplier,
+            },
         }
     }
 
     fn equals(&self, doller: &Doller) -> bool {
-        self.amount == doller.amount
+        self.money.amount == doller.money.amount
     }
 }
 
