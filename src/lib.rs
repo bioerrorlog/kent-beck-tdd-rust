@@ -38,22 +38,24 @@ impl Doller {
 
 #[derive(Debug, PartialEq)]
 struct Franc {
-    amount: i32,
+    money: Money,
 }
 
 impl Franc {
-    fn new(amount: i32) -> Franc {
-        Franc { amount }
+    fn new(amount: i32) -> Self {
+        Franc {
+            money: Money::new(amount),
+        }
     }
 
-    fn times(&self, multiplier: i32) -> Franc {
+    fn times(&self, multiplier: i32) -> Self {
         Franc {
-            amount: self.amount * multiplier,
+            money: Money::new(self.money.amount * multiplier),
         }
     }
 
     fn equals(&self, franc: &Franc) -> bool {
-        self.amount == franc.amount
+        self.money.equals(&franc.money)
     }
 }
 
@@ -79,5 +81,7 @@ mod tests {
     fn equality() {
         assert!(Doller::new(5).equals(&Doller::new(5)));
         assert!(!Doller::new(5).equals(&Doller::new(6)));
+        assert!(Franc::new(5).equals(&Franc::new(5)));
+        assert!(!Franc::new(5).equals(&Franc::new(6)));
     }
 }
