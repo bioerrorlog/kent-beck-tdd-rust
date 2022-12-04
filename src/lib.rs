@@ -3,21 +3,25 @@ struct Money {
     amount: i32,
 }
 
+impl Money {
+    fn new (amount: i32) -> Self {
+        Money { amount }
+    }
+}
+
 #[derive(Debug, PartialEq)]
 struct Doller {
     money: Money,
 }
 
 impl Doller {
-    fn new(amount: i32) -> Doller {
+    fn new(amount: i32) -> Self {
         Doller {
-            money: Money {
-                amount,
-            },
+            money: Money::new(amount),
         }
     }
 
-    fn times(&self, multiplier: i32) -> Doller {
+    fn times(&self, multiplier: i32) -> Self {
         Doller {
             money: Money {
                 amount: self.money.amount * multiplier,
