@@ -1,61 +1,56 @@
-#[derive(Debug, PartialEq)]
-struct Money {
-    amount: i32,
-}
+trait Money {
+    fn new(amount: i32) -> Self;
 
-impl Money {
-    fn new(amount: i32) -> Self {
-        Money { amount }
-    }
+    fn amount(&self) -> i32;
 
-    fn equals(&self, money: &Money) -> bool {
-        self.amount == money.amount
-    }
+    fn times(&self, multiplier: i32) -> Self;
+
+    fn equals(&self, money: &impl Money) -> bool;
 }
 
 #[derive(Debug, PartialEq)]
 struct Doller {
-    money: Money,
+    amount: i32,
 }
 
-impl Doller {
+impl Money for Doller {
     fn new(amount: i32) -> Self {
-        Doller {
-            money: Money::new(amount),
-        }
+        Doller { amount }
+    }
+
+    fn amount(&self) -> i32 {
+        self.amount
     }
 
     fn times(&self, multiplier: i32) -> Self {
-        Doller {
-            money: Money::new(self.money.amount * multiplier),
-        }
+        Doller::new(self.amount * multiplier)
     }
 
-    fn equals(&self, doller: &Doller) -> bool {
-        self.money.equals(&doller.money)
+    fn equals(&self, money: &impl Money) -> bool {
+        self.amount == money.amount()
     }
 }
 
 #[derive(Debug, PartialEq)]
 struct Franc {
-    money: Money,
+    amount: i32,
 }
 
-impl Franc {
+impl Money for Franc {
     fn new(amount: i32) -> Self {
-        Franc {
-            money: Money::new(amount),
-        }
+        Franc { amount }
+    }
+
+    fn amount(&self) -> i32 {
+        self.amount
     }
 
     fn times(&self, multiplier: i32) -> Self {
-        Franc {
-            money: Money::new(self.money.amount * multiplier),
-        }
+        Franc::new(self.amount * multiplier)
     }
 
-    fn equals(&self, franc: &Franc) -> bool {
-        self.money.equals(&franc.money)
+    fn equals(&self, money: &impl Money) -> bool {
+        self.amount == money.amount()
     }
 }
 
