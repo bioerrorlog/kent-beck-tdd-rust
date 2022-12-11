@@ -6,6 +6,14 @@ trait Money {
     fn times(&self, multiplier: i32) -> Self;
 
     fn equals(&self, money: &impl Money) -> bool;
+
+    fn currency_type(&self) -> Currency;
+}
+
+#[derive(PartialEq)]
+enum Currency {
+    Doller,
+    Franc,
 }
 
 #[derive(Debug, PartialEq)]
@@ -27,7 +35,11 @@ impl Money for Doller {
     }
 
     fn equals(&self, money: &impl Money) -> bool {
-        self.amount == money.amount()
+        self.amount == money.amount() && self.currency_type() == money.currency_type()
+    }
+
+    fn currency_type(&self) -> Currency {
+        Currency::Doller
     }
 }
 
@@ -50,7 +62,11 @@ impl Money for Franc {
     }
 
     fn equals(&self, money: &impl Money) -> bool {
-        self.amount == money.amount()
+        self.amount == money.amount() && self.currency_type() == money.currency_type()
+    }
+
+    fn currency_type(&self) -> Currency {
+        Currency::Franc
     }
 }
 
@@ -78,5 +94,15 @@ mod tests {
         assert!(!Doller::new(5).equals(&Doller::new(6)));
         assert!(Franc::new(5).equals(&Franc::new(5)));
         assert!(!Franc::new(5).equals(&Franc::new(6)));
+        assert!(!Franc::new(5).equals(&Doller::new(5)));
+        assert!(!Doller::new(5).equals(&Franc::new(5)));
     }
+
+    #[test]
+    fn currency_type() {
+        assert!(Doller::new(5).currency_type() == Doller::new(4).currency_type());
+        assert!(Franc::new(5).currency_type() == Franc::new(4).currency_type());
+        assert!(Doller::new(5).currency_type() != Franc::new(4).currency_type());
+    }
+
 }
