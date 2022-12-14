@@ -1,3 +1,3 @@
 # kent-beck-tdd-rust
 
-Walkthrough Kent Beck TDD book with Rust.
+Learning notes: Kent Beck TDD book with Rust.
