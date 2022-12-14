@@ -16,6 +16,10 @@ impl Money {
     fn equals(&self, money: &Money) -> bool {
         self.amount == money.amount && self.currency == money.currency
     }
+
+    fn plus(&self, addend: &Money) -> Money{
+        Money::new(self.amount + addend.amount, self.currency)
+    }
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]
@@ -47,5 +51,11 @@ mod tests {
     fn currency_type() {
         assert_eq!(Currency::Doller, Money::new(5, Currency::Doller).currency);
         assert_eq!(Currency::Franc, Money::new(5, Currency::Franc).currency);
+    }
+
+    #[test]
+    fn simple_addition() {
+        let sum = Money::new(5, Currency::Doller).plus(&Money::new(5, Currency::Doller));
+        assert_eq!(Money::new(10, Currency::Doller), sum);
     }
 }
