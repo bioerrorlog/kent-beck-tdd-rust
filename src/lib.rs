@@ -1,67 +1,27 @@
-trait Money {
-    fn new(amount: i32) -> Self;
-
-    fn amount(&self) -> i32;
-
-    fn times(&self, multiplier: i32) -> Self;
-
-    fn equals(&self, money: &impl Money) -> bool {
-        self.amount() == money.amount() && self.currency_type() == money.currency_type()
-    }
-
-    fn currency_type(&self) -> Currency;
+#[derive(Debug, PartialEq)]
+struct Money {
+    amount: i32,
+    currency: Currency,
 }
 
-#[derive(PartialEq)]
+impl Money {
+    fn new(amount: i32, currency: Currency) -> Money {
+        Money { amount, currency }
+    }
+
+    fn times(&self, multiplier: i32) -> Money {
+        Money::new(self.amount * multiplier, self.currency)
+    }
+
+    fn equals(&self, money: &Money) -> bool {
+        self.amount == money.amount && self.currency == money.currency
+    }
+}
+
+#[derive(Debug, PartialEq, Clone, Copy)]
 enum Currency {
     Doller,
     Franc,
-}
-
-#[derive(Debug, PartialEq)]
-struct Doller {
-    amount: i32,
-}
-
-impl Money for Doller {
-    fn new(amount: i32) -> Self {
-        Doller { amount }
-    }
-
-    fn amount(&self) -> i32 {
-        self.amount
-    }
-
-    fn times(&self, multiplier: i32) -> Self {
-        Doller::new(self.amount * multiplier)
-    }
-
-    fn currency_type(&self) -> Currency {
-        Currency::Doller
-    }
-}
-
-#[derive(Debug, PartialEq)]
-struct Franc {
-    amount: i32,
-}
-
-impl Money for Franc {
-    fn new(amount: i32) -> Self {
-        Franc { amount }
-    }
-
-    fn amount(&self) -> i32 {
-        self.amount
-    }
-
-    fn times(&self, multiplier: i32) -> Self {
-        Franc::new(self.amount * multiplier)
-    }
-
-    fn currency_type(&self) -> Currency {
-        Currency::Franc
-    }
 }
 
 #[cfg(test)]
@@ -70,32 +30,31 @@ mod tests {
 
     #[test]
     fn multiplication() {
-        let five = Doller::new(5);
-        assert_eq!(Doller::new(10), five.times(2));
-        assert_eq!(Doller::new(15), five.times(3));
+        let five = Money::new(5, Currency::Doller);
+        assert_eq!(Money::new(10, Currency::Doller), five.times(2));
+        assert_eq!(Money::new(15, Currency::Doller), five.times(3));
     }
 
     #[test]
     fn franc_multiplication() {
-        let five = Franc::new(5);
-        assert_eq!(Franc::new(10), five.times(2));
-        assert_eq!(Franc::new(15), five.times(3));
+        let five = Money::new(5, Currency::Franc);
+        assert_eq!(Money::new(10, Currency::Franc), five.times(2));
+        assert_eq!(Money::new(15, Currency::Franc), five.times(3));
     }
 
     #[test]
     fn equality() {
-        assert!(Doller::new(5).equals(&Doller::new(5)));
-        assert!(!Doller::new(5).equals(&Doller::new(6)));
-        assert!(Franc::new(5).equals(&Franc::new(5)));
-        assert!(!Franc::new(5).equals(&Franc::new(6)));
-        assert!(!Franc::new(5).equals(&Doller::new(5)));
-        assert!(!Doller::new(5).equals(&Franc::new(5)));
+        assert!(Money::new(5, Currency::Doller).equals(&Money::new(5, Currency::Doller)));
+        assert!(!Money::new(5, Currency::Doller).equals(&Money::new(6, Currency::Doller)));
+        assert!(Money::new(5, Currency::Franc).equals(&Money::new(5, Currency::Franc)));
+        assert!(!Money::new(5, Currency::Franc).equals(&Money::new(6, Currency::Franc)));
+        assert!(!Money::new(5, Currency::Franc).equals(&Money::new(5, Currency::Doller)));
+        assert!(!Money::new(5, Currency::Doller).equals(&Money::new(5, Currency::Franc)));
     }
 
     #[test]
     fn currency_type() {
-        assert!(Doller::new(5).currency_type() == Doller::new(4).currency_type());
-        assert!(Franc::new(5).currency_type() == Franc::new(4).currency_type());
-        assert!(Doller::new(5).currency_type() != Franc::new(4).currency_type());
+        assert_eq!(Currency::Doller, Money::new(5, Currency::Doller).currency);
+        assert_eq!(Currency::Franc, Money::new(5, Currency::Franc).currency);
     }
 }
