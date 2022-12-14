@@ -36,18 +36,9 @@ mod tests {
     }
 
     #[test]
-    fn franc_multiplication() {
-        let five = Money::new(5, Currency::Franc);
-        assert_eq!(Money::new(10, Currency::Franc), five.times(2));
-        assert_eq!(Money::new(15, Currency::Franc), five.times(3));
-    }
-
-    #[test]
     fn equality() {
         assert!(Money::new(5, Currency::Doller).equals(&Money::new(5, Currency::Doller)));
         assert!(!Money::new(5, Currency::Doller).equals(&Money::new(6, Currency::Doller)));
-        assert!(Money::new(5, Currency::Franc).equals(&Money::new(5, Currency::Franc)));
-        assert!(!Money::new(5, Currency::Franc).equals(&Money::new(6, Currency::Franc)));
         assert!(!Money::new(5, Currency::Franc).equals(&Money::new(5, Currency::Doller)));
         assert!(!Money::new(5, Currency::Doller).equals(&Money::new(5, Currency::Franc)));
     }
